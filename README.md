@@ -8,18 +8,24 @@ This repository contains **PowerShell scripts for SOC (Security Operations Cente
 - Collects Windows Security events:
   - Login success
   - Login failure
-  - Admin privilege events  
+  - Admin privilege events
 - Exports the events to CSV in the `Logs` folder.
 
 ### 2. failed-login-analysis.ps1
-- Collects failed Windows login events (Event ID 4625) from the last 7 days.  
-- Summarizes failed login attempts per user.  
-- Flags potential brute-force attempts (5+ failed logins).  
+- Collects failed Windows login events (Event ID 4625) from the last 7 days.
+- Summarizes failed login attempts per user.
+- Flags potential brute-force attempts (5+ failed logins).
 - Exports the detailed results to CSV in the `Logs` folder.
 
+### 3. user-activity-report.ps1
+- Collects user logon and logoff activity.
+- Generates a summary of activity per user.
+- Captures event type, time, user, and source.
+- Exports activity details to CSV in the `Logs` folder.
+
 ## Notes
-- The **Logs folder** is ignored in Git (`.gitignore`) for privacy.  
-- Scripts are designed for **SOC lab and educational purposes**.  
+- The **Logs folder** is ignored in Git (`.gitignore`) for privacy.
+- Scripts are designed for **SOC lab and educational purposes**.
 - More monitoring scripts will be added in the future.
 
 ## How to Use
@@ -41,6 +47,8 @@ cd soc-powershell-labs\scripts\log-analysis
 ./event-log-monitor.ps1
 # or
 ./failed-login-analysis.ps1
+# or
+./user-activity-report.ps1
 ```
 
 4. Check the exported CSV files in the Logs folder.
