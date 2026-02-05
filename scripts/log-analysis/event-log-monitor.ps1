@@ -1,7 +1,16 @@
-# EventLogMonitor.ps1
+# event-log-monitor.ps1
 # SOC Lab - Windows Event Log Monitoring (Optimized)
 
+# Define CSV output path (Logs folder inside scripts/)
 $logPath = "$PSScriptRoot\..\Logs\SecurityEvents.csv"
+
+# Ensure the Logs folder exists
+$logFolder = Split-Path $logPath
+if (-not (Test-Path $logFolder)) {
+    New-Item -ItemType Directory -Path $logFolder | Out-Null
+}
+
+# Number of days to look back and max events to retrieve
 $daysToCheck = 1
 $maxEvents = 200  # Limit number of events for lab purposes
 
