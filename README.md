@@ -86,7 +86,7 @@ These scripts track changes to files and directories:
 
  Reports modified, new, or missing files. SHA-256 hashes are used to detect content changes. Baseline hashes are saved in a CSV inside the monitored folder.
 
-**Notes**
+## Notes
 
 The Logs folder is ignored in Git (.gitignore) for privacy.
 
@@ -94,7 +94,7 @@ Scripts are designed for SOC lab and educational purposes.
 
 More monitoring scripts will be added in the future.
 
-**How to Use**
+## How to Use
 
 **1. Clone the repository:**
 
