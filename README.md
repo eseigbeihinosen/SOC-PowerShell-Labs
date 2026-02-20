@@ -5,10 +5,11 @@
    - [Log Analysis Scripts](#1-log-analysis-scripts)
    - [File Monitoring Scripts](#2-file-monitoring-scripts)
    - [Process Monitoring Scripts](#3-process-monitoring-scripts)
+   - [Network Monitoring Scripts](#4-network-monitoring-scripts)
 2. [Notes](#notes)
 3. [How to Use](#how-to-use)
 
-This repository contains **PowerShell scripts for SOC (Security Operations Center) labs**, designed for learning and monitoring Windows security events, file integrity, and running processes.
+This repository contains **PowerShell scripts for SOC (Security Operations Center) labs**, designed for learning and monitoring Windows security events, file integrity, running processes, and network activity.
 
 ---
 
@@ -36,7 +37,6 @@ These scripts monitor Windows security events and user activity:
   Flags potential brute-force attempts (5+ failed logins).
 
   **Usage:**
-
   ```powershell
   ./log-analysis/failed-login-analysis.ps1
   ```
@@ -49,7 +49,6 @@ These scripts monitor Windows security events and user activity:
   Captures event type, time, user, and source.
 
   **Usage:**
-
   ```powershell
   ./log-analysis/user-activity-report.ps1
   ```
@@ -61,7 +60,7 @@ These scripts monitor Windows security events and user activity:
 
 These scripts track changes to files and directories:
 
-- #### file-integrity-check.ps1
+- **file-integrity-check.ps1**
   Monitors files for:
   - Modified files
   - New files
@@ -71,7 +70,7 @@ These scripts track changes to files and directories:
 
   ```powershell
   ./file-monitoring/file-integrity-check.ps1 -Mode baseline -Path "C:\Path\To\Monitor"
-  ```
+  ``` 
 
   **Check for changes:**
 
@@ -80,29 +79,26 @@ These scripts track changes to files and directories:
   ```
 
   **Output:**
-  Reports modified, new, or missing files.  
-  SHA-256 hashes are used to detect content changes.  
+  Reports modified, new, or missing files.
+  SHA-256 hashes are used to detect content changes.
   Baseline hashes are saved in a CSV inside the monitored folder.
-
 
 ### 3. Process Monitoring Scripts
 
 These scripts monitor running processes on Windows:
 
-- #### process-monitor.ps1
+- **process-monitor.ps1**
   Continuously monitors all processes in real time:
   - Detects new processes starting
   - Detects stopped processes
   - Logs events with timestamps and PIDs
 
   **Usage:**
-
   ```powershell
   ./process-monitoring/process-monitor.ps1
   ```
 
   **Output Example:**
-
   ```powershell
   2026-02-13 08:52:00 - New Process Started: dllhost (PID: 18720)
   2026-02-13 08:52:00 - Process Stopped: backgroundTaskHost (PID: 11980)
@@ -115,37 +111,66 @@ These scripts monitor running processes on Windows:
   - Logs are saved in `C:\Temp\ProcessMonitorLog.txt` by default.
   - PID (Process ID) is the unique identifier assigned to each running process.
 
+### 4. Network Monitoring Scripts
+
+These scripts monitor network activity on the system:
+
+- **connection-monitor.ps1**
+  Continuously monitors active network connections (TCP and UDP):
+  - Tracks local and remote IP addresses
+  - Logs ports and connection states
+  - Records Process IDs (PID) for each connection
+  - Captures activity at regular intervals
+
+ **Usage:**
+ ```powershell
+ ./network-monitoring/connection-monitor.ps1
+ ```
+
+ **Output:**
+ Logs network connections to:
+
+ `scripts\Logs\NetworkConnections.log`
+
+**Output Example:**
+```powershell
+=== 2026-02-20 15:30:00 - TCP Connections ===
+Local: 192.168.1.5:52345 -> Remote: 142.250.190.78:443 | State: Established | PID: 4321
+
+=== 2026-02-20 15:30:00 - UDP Connections ===
+Local: 192.168.1.5:5353 | PID: 1234
+```
+
+ **Notes:**
+- Runs continuously until stopped manually (Ctrl + C).
+- Default logging interval is 30 seconds.
+- Useful for detecting unusual or unauthorized network activity.
+- Helps map processes to active network connections during investigations.
+
 ## Notes
 - The Logs folder is ignored in Git (.gitignore) for privacy.
 - Scripts are designed for SOC labs and educational purposes.
 - More monitoring scripts will be added in the future.
 
 ## How to Use
-
-#### 1. Clone the repository:
-
+### 1. Clone the repository:
 ```powershell
 git clone https://github.com/eseigbeihinosen/soc-powershell-labs.git
 ```
 
-#### 2. Navigate to the script folder:
-
+### 2. Navigate to the script folder:
 ```powershell
 cd soc-powershell-labs\scripts
 ```
 
-#### 3. Run a script:
-
+### 3. Run a script:
 **Log Analysis**
-
 ```powershell
 ./log-analysis/event-log-monitor.ps1
 ./log-analysis/failed-login-analysis.ps1
 ./log-analysis/user-activity-report.ps1
 ```
-
 **File Monitoring**
-
 ```powershell
 # Create baseline
 ./file-monitoring/file-integrity-check.ps1 -Mode baseline -Path "C:\Path\To\Monitor"
@@ -155,13 +180,15 @@ cd soc-powershell-labs\scripts
 ```
 
 **Process Monitoring**
-
 ```powershell
 ./process-monitoring/process-monitor.ps1
 ```
 
-#### 4. Check output files:
-
+**Network Monitoring**
+```powershell
+./network-monitoring/connection-monitor.ps1
+```
+### 4. Check output files:
 CSV files for log analysis and file monitoring will be in the Logs folder.
-
 Process monitoring logs will be in `C:\Temp\ProcessMonitorLog.txt`.
+Network monitoring logs will be in `scripts\Logs\NetworkConnections.log`.
